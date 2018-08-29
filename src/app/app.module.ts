@@ -11,13 +11,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from "@angular/forms";
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { CommentsService } from "./services/comments.service";
+import { PostItemComponent } from './components/post-item/post-item.component';
+import { AddNewPostFormComponent } from './components/add-new-post-form/add-new-post-form.component';
+import { CommentsComponent } from './components/comments/comments.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    PostsComponent
+    PostsComponent,
+    PostItemComponent,
+    AddNewPostFormComponent,
+    CommentsComponent
   ],
   imports: [
     BrowserModule,

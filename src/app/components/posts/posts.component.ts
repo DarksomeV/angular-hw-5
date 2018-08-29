@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output  } from '@angular/core';
 import { PostsService } from "../../services/posts.service";
 import { CommentsService } from "../../services/comments.service";
 import { Post } from "../../models/post";
@@ -14,15 +14,9 @@ import { NgxSpinnerService } from "ngx-spinner";
   styleUrls: ['./posts.component.css']
 })
 export class PostsComponent implements OnInit {
-  @ViewChild('form') form1: NgForm;
   posts: Post[];
-  comments: Comment[];
-  isAdmin = true;
-  post: Post = {
-    userId: 0,
-    title: '',
-    body: ''
-  };
+  @Output() comments: Comment[];
+
   constructor(
     public postService: PostsService,
     public commentService: CommentsService,
@@ -33,31 +27,26 @@ export class PostsComponent implements OnInit {
   ngOnInit() {
     this.postService.getPosts().subscribe((posts: Post[]) => {
       this.posts = posts;
-      console.log(posts);
-    })
+    });
   }
 
-  onSubmit(form ) {
-    if (form.invalid) return;
-    this.spinner.show();
+  addNewPost(post: Post) {
+    this.posts.unshift(post);
+    this.toastr.success('Post added success', 'Message');
+  }
 
-    const newPost: Post = {
-      title: form.value.title,
-      body: form.value.text,
-      userId:this.posts.length
-    };
+  onEdit(post:Post) {
+    this.postService.emitEditEvent(post);
+  }
 
-    this.postService.addPost(newPost).subscribe((post: Post) => {
-      this.posts.unshift(post);
-
-      this.toastr.success('Post added, success', 'Message');
-
-      this.spinner.hide();
-    }, error => {
-      this.toastr.error(error.message, 'Error');
+  updatePost(post:Post) {
+    this.posts.forEach((arrEl, i) => {
+      if (arrEl.id === post.id) {
+        this.posts.splice(i, 1, post);
+        this.toastr.success('Post edited!', 'Message')
+      }
     });
-
-    this.form1.resetForm();
+    this.postService.emitEditEvent({title: '', body: '', userId: 1});
   }
 
   onDelete(id: number) {
