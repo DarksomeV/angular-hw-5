@@ -30,7 +30,7 @@ export class AddNewPostFormComponent implements OnInit {
     })
   }
 
-  onSubmit(form ) {
+  onSubmit(form) {
     if (form.invalid) return;
     this.spinner.show();
 

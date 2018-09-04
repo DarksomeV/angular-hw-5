@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'app-comments',
@@ -7,9 +7,12 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CommentsComponent implements OnInit {
   @Input('comments') comments: Comment[];
+
   constructor() { }
 
   ngOnInit() {
   }
+
+
 
 }

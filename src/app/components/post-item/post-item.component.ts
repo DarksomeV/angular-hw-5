@@ -15,10 +15,10 @@ export class PostItemComponent implements OnInit {
   @Input('post') postItem: Post;
   @Output() deletePost: EventEmitter<number> = new EventEmitter();
   @Output() editPost: EventEmitter<Post> = new EventEmitter();
-  @Output() showComments: EventEmitter<Post> = new EventEmitter();
+  @Output() showComments: EventEmitter<number> = new EventEmitter();
   @Output() comments: Comment[];
   editPostId:number;
-
+  commentsShown = false;
 
   constructor(
     public postService: PostsService,
@@ -37,6 +37,8 @@ export class PostItemComponent implements OnInit {
     });
   }
 
+
+  //fedfs
   onEdit(post:Post) {
     const updatePost:Post = {
       title: post.title,
@@ -56,15 +58,15 @@ export class PostItemComponent implements OnInit {
     this.editPost.emit({title: '', body: '', userId: 1});
   }
 
-  getComments(id:number) {
+
+  onShowComments(id:number) {
     this.spinner.show();
 
-    this.commentsService.getComments(id).subscribe( comments => {
-      this.comments = comments;
+    this.commentsService.getComments(id).subscribe( (comments: Comment[]) => {
+           this.comments = comments;
+           this.commentsShown = !this.commentsShown;
+  });
 
-      this.postItem.showComments = !this.postItem.showComments;
-
-      this.spinner.hide();
-    });
+    this.spinner.hide();
   }
 }

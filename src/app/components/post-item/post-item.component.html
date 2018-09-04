@@ -5,10 +5,10 @@
     <button class="btn btn-danger" (click)="onDelete(postItem.id)">Delete</button>
     <button class="btn btn-warning" (click)="onEdit(postItem)" *ngIf="!editPostId">Edit</button>
     <button class="btn btn-warning" (click)="onCancel()" *ngIf="editPostId">Cancel</button>
-    <button class="btn btn-primary" (click)="getComments(postItem.id)">Comments</button>
+    <button class="btn btn-primary" (click)="onShowComments(postItem.id)">Comments</button>
   </div>
   <!-- /.card-body -->
 </div>
 <!-- /.card -->
-<app-comments [comments]="comments" *ngIf="postItem.showComments"></app-comments>
+<app-comments [comments]="comments" *ngIf="commentsShown"></app-comments>
 
